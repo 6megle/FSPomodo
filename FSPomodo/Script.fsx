@@ -28,3 +28,15 @@ let simulatedJob id time =
 |> Async.Parallel
 |> Async.RunSynchronously
 |> ignore
+
+open System.Windows.Forms
+let form = new Form(Visible = true)
+let textBox = new TextBox(ReadOnly = true, Text = "Hello world")
+form.Controls.Add(textBox)
+async {
+    while true do
+        do! Async.Sleep 1000
+        textBox.Text <- System.DateTime.Now.ToString()
+} |> Async.StartImmediate
+[<System.STAThread>]
+do Application.Run(form)
